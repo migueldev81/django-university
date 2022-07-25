@@ -9,7 +9,7 @@ from django.http import Http404
 class Student_APIView(APIView):
     
     #getAllStudents
-    def get(self, request, format=None, *args, **kwargs):
+    def get(self, request, format=None):
         student = Student.objects.all()
         serializer = StudentSerializers(student, many=True)
         return Response(serializer.data)
@@ -24,7 +24,7 @@ class Student_APIView(APIView):
     
 class Student_APIView_Detail(APIView):
     
-    #getStudent
+    #ReqWithParams
     def get_object(self, pk):
         try:
             return Student.objects.get(pk=pk)
@@ -44,6 +44,7 @@ class Student_APIView_Detail(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
+        
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     #deleteStudent
@@ -51,3 +52,18 @@ class Student_APIView_Detail(APIView):
         student = self.get_object(pk)
         student.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+class Student_APIView_Querys(APIView):
+    
+    #ReqWithParams
+    def get_object(self, *args):
+        try:
+            return Student.objects.get(name=args.name)
+        except Student.DoesNotExist:
+            raise Http404
+    
+    #getStudent
+    def get(self, request, name, format=None):
+        student = self.get_object(name)
+        serializer = StudentSerializers(student)  
+        return Response(serializer.data)
