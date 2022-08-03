@@ -1,10 +1,10 @@
 # API REST | University
-## Tecnologías 
+## Tech Stack 
 * Python
 * MySQL
 * Django
-## Arquitectura | REST
+## Architecture | REST
 ![REST](./resources/rest.png) 
-## Base de Datos | SQL
+## Database | SQL
 ![Database](./resources/database.png) 
 
